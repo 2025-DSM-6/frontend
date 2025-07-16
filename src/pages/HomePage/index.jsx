@@ -5,6 +5,7 @@ import getSubjectIcon from '@/util/subjectIcon';
 import * as S from "./styles";
 import { SubjectIcon } from "./styles";
 import ChoiceColor from '@/util/subjectColor';
+import RegistrationModal from "@/components/RegistrationModal";
 
 import math1Icon from "@/assets/math1Icon.svg";
 import literatureIcon from "@/assets/literatureIcon.svg";
@@ -24,6 +25,7 @@ import english1Icon from "@/assets/english1Icon.svg";
 import integratedScienceIcon from "@/assets/integratedScienceIcon.svg";
 import programmingIcon from "@/assets/programmingIcon.svg";
 import computerArchitectureIcon from "@/assets/computerArchitectureIcon.svg";
+import { useState } from "react";
 
 const subjectIconMap = {
   math1Icon,
@@ -53,9 +55,10 @@ function HomePage() {
     { subject: "통합과학", unit: "2단원: 화학 반응", description: "산화환원반응, 중화반응" },
     { subject: "한국사", unit: "3단원: 조선 후기", description: "세도정치, 농민 봉기, 개화 정책" },
   ];
+  const [registrationModal, setRegistrationModal] = useState(false);
 
   const handleAddSubject = () => {
-    alert("담당과목 등록 버튼 클릭됨");
+    setRegistrationModal(true);
   };
 
   const handleAddTestRange = () => {
@@ -76,6 +79,10 @@ function HomePage() {
 
   const handleDeleteTestRange = (unit) => {
     alert(`시험범위 삭제 클릭: ${unit}`);
+  };
+
+  const closeModal = () => {
+    setRegistrationModal(false);
   };
 
   return (
@@ -143,6 +150,9 @@ function HomePage() {
           </S.Section>
         </S.SectionWrapper>
       </S.HomePageContainer>
+      {registrationModal && (
+        <RegistrationModal onClose={closeModal} />
+      )}
     </>
   );
 }
