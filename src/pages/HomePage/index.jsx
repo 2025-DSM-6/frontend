@@ -52,44 +52,52 @@ function HomePage() {
           <S.Section>
             <S.SectionTitle>담당과목 목록<S.TotalNum>총 {subjects.length}개</S.TotalNum></S.SectionTitle>
             <S.ItemList>
-              {subjects.map(subject => (
-                <S.SubjectItem key={subject}>
-                  <S.SubjectLeft>
-                    <S.SubjectLogo />
-                    <S.SubjectInfo>
-                      <S.SubjectName>{subject}</S.SubjectName>
-                      <S.SubjectMeta>2학년 소프트웨어과</S.SubjectMeta>
-                    </S.SubjectInfo>
-                  </S.SubjectLeft>
-                  <S.SubjectActions>
-                    <img src={UpdateIcon} alt="수정" onClick={() => handleEditSubject(subject)} />
-                    <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteSubject(subject)} />
-                  </S.SubjectActions>
-                </S.SubjectItem>
-              ))}
+              {subjects.length === 0 ? (
+                <S.EmptyMessage>등록된 과목이 없습니다.</S.EmptyMessage>
+              ) : (
+                subjects.map(subject => (
+                  <S.SubjectItem key={subject}>
+                    <S.SubjectLeft>
+                      <S.SubjectLogo />
+                      <S.SubjectInfo>
+                        <S.SubjectName>{subject}</S.SubjectName>
+                        <S.SubjectMeta>2학년 소프트웨어과</S.SubjectMeta>
+                      </S.SubjectInfo>
+                    </S.SubjectLeft>
+                    <S.SubjectActions>
+                      <img src={UpdateIcon} alt="수정" onClick={() => handleEditSubject(subject)} />
+                      <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteSubject(subject)} />
+                    </S.SubjectActions>
+                  </S.SubjectItem>
+                ))
+              )}
             </S.ItemList>
           </S.Section>
           <S.Section>
             <S.SectionTitle>시험범위 목록<S.TotalNum>총 {testRanges.length}과목</S.TotalNum></S.SectionTitle>
             <S.ItemList>
-              {testRanges.map(({ subject, unit, description }) => {
-                const color = ChoiceColor(subject);
-                return (
-                  <S.SubjectItem key={unit}>
-                    <S.TestRangeLeft>
-                      <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
-                        {subject}
-                      </S.SubjectTag>
-                      <S.UnitTitle>{unit}</S.UnitTitle>
-                      <S.UnitDescription>{description}</S.UnitDescription>
-                    </S.TestRangeLeft>
-                    <S.SubjectActions>
-                      <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(unit)} />
-                      <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(unit)} />
-                    </S.SubjectActions>
-                  </S.SubjectItem>
-                );
-              })}
+              {testRanges.length === 0 ? (
+                <S.EmptyMessage>등록된 시험범위가 없습니다.</S.EmptyMessage>
+              ) : (
+                testRanges.map(({ subject, unit, description }) => {
+                  const color = ChoiceColor(subject);
+                  return (
+                    <S.SubjectItem key={unit}>
+                      <S.TestRangeLeft>
+                        <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
+                          {subject}
+                        </S.SubjectTag>
+                        <S.UnitTitle>{unit}</S.UnitTitle>
+                        <S.UnitDescription>{description}</S.UnitDescription>
+                      </S.TestRangeLeft>
+                      <S.SubjectActions>
+                        <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(unit)} />
+                        <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(unit)} />
+                      </S.SubjectActions>
+                    </S.SubjectItem>
+                  );
+                })
+              )}
             </S.ItemList>
           </S.Section>
         </S.SectionWrapper>

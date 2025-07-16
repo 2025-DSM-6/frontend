@@ -180,3 +180,10 @@ export const UnitDescription = styled.div`
   font-size: 12px;
   color: #4b5563;
 `;
+
+export const EmptyMessage = styled.div`
+  text-align: center;
+  color: #999999;
+  padding: 20px;
+  font-size: 16px;
+`;
