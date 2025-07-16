@@ -12,6 +12,30 @@ function HomePage() {
     { subject: "한국사", unit: "3단원: 조선 후기", description: "세도정치, 농민 봉기, 개화 정책" },
   ];
 
+  const handleAddSubject = () => {
+    alert("담당과목 등록 버튼 클릭됨");
+  };
+
+  const handleAddTestRange = () => {
+    alert("시험범위 등록 버튼 클릭됨");
+  };
+
+  const handleEditSubject = (subject) => {
+    alert(`담당과목 수정 클릭: ${subject}`);
+  };
+
+  const handleDeleteSubject = (subject) => {
+    alert(`담당과목 삭제 클릭: ${subject}`);
+  };
+
+  const handleEditTestRange = (unit) => {
+    alert(`시험범위 수정 클릭: ${unit}`);
+  };
+
+  const handleDeleteTestRange = (unit) => {
+    alert(`시험범위 삭제 클릭: ${unit}`);
+  };
+
   return (
     <>
       <S.Header>
@@ -19,17 +43,17 @@ function HomePage() {
           <img src={Logo} alt="로고" />
         </S.HeaderLogo>
         <S.HeaderButtons>
-          <S.HeaderButton>담당과목 등록</S.HeaderButton>
-          <S.HeaderButton>시험범위 등록</S.HeaderButton>
+          <S.HeaderButton onClick={handleAddSubject}>담당과목 등록</S.HeaderButton>
+          <S.HeaderButton onClick={handleAddTestRange}>시험범위 등록</S.HeaderButton>
         </S.HeaderButtons>
       </S.Header>
       <S.HomePageContainer>
         <S.SectionWrapper>
           <S.Section>
-            <S.SectionTitle>담당과목 목록<S.TotalNum>총 4개</S.TotalNum></S.SectionTitle>
+            <S.SectionTitle>담당과목 목록<S.TotalNum>총 {subjects.length}개</S.TotalNum></S.SectionTitle>
             <S.ItemList>
-              {subjects.map((subject, index) => (
-                <S.SubjectItem key={index}>
+              {subjects.map(subject => (
+                <S.SubjectItem key={subject}>
                   <S.SubjectLeft>
                     <S.SubjectLogo />
                     <S.SubjectInfo>
@@ -38,30 +62,30 @@ function HomePage() {
                     </S.SubjectInfo>
                   </S.SubjectLeft>
                   <S.SubjectActions>
-                    <img src={UpdateIcon} alt="수정" />
-                    <img src={DeleteIcon} alt="삭제" />
+                    <img src={UpdateIcon} alt="수정" onClick={() => handleEditSubject(subject)} />
+                    <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteSubject(subject)} />
                   </S.SubjectActions>
                 </S.SubjectItem>
               ))}
             </S.ItemList>
           </S.Section>
           <S.Section>
-            <S.SectionTitle>시험범위 목록<S.TotalNum>총 3과목</S.TotalNum></S.SectionTitle>
+            <S.SectionTitle>시험범위 목록<S.TotalNum>총 {testRanges.length}과목</S.TotalNum></S.SectionTitle>
             <S.ItemList>
-              {testRanges.map((item, index) => {
-                const color = ChoiceColor(item.subject);
+              {testRanges.map(({ subject, unit, description }) => {
+                const color = ChoiceColor(subject);
                 return (
-                  <S.SubjectItem key={index}>
+                  <S.SubjectItem key={unit}>
                     <S.TestRangeLeft>
                       <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
-                        {item.subject}
+                        {subject}
                       </S.SubjectTag>
-                      <S.UnitTitle>{item.unit}</S.UnitTitle>
-                      <S.UnitDescription>{item.description}</S.UnitDescription>
+                      <S.UnitTitle>{unit}</S.UnitTitle>
+                      <S.UnitDescription>{description}</S.UnitDescription>
                     </S.TestRangeLeft>
                     <S.SubjectActions>
-                      <img src={UpdateIcon} alt="수정" />
-                      <img src={DeleteIcon} alt="삭제" />
+                      <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(unit)} />
+                      <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(unit)} />
                     </S.SubjectActions>
                   </S.SubjectItem>
                 );
