@@ -17,6 +17,7 @@ export const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 70px;
   box-sizing: border-box;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* 아래쪽 그림자만 */
   position: relative;
@@ -24,13 +25,19 @@ export const Header = styled.header`
 `;
 
 export const HeaderLogo = styled.div`
-  font-size: 24px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+
+  img {
+    height: 48px;
+  }
 `;
 
 export const HeaderButtons = styled.div`
   display: flex;
   gap: 12px;
+  margin-right: 20px;
 `;
 
 export const HeaderButton = styled.button`

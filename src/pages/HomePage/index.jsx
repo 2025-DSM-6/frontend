@@ -1,5 +1,6 @@
 import UpdateIcon from "@/assets/UpdateIcon.svg";
 import DeleteIcon from "@/assets/DeleteIcon.svg";
+import Logo from "@/assets/Logo.svg";
 import * as S from "./styles";
 import ChoiceColor from '@/util/subjectColor';
 
@@ -14,7 +15,9 @@ function HomePage() {
   return (
     <>
       <S.Header>
-        <S.HeaderLogo>시험 관리 시스템</S.HeaderLogo>
+        <S.HeaderLogo>
+          <img src={Logo} alt="로고" />
+        </S.HeaderLogo>
         <S.HeaderButtons>
           <S.HeaderButton>담당과목 등록</S.HeaderButton>
           <S.HeaderButton>시험범위 등록</S.HeaderButton>
