@@ -1,11 +1,53 @@
 import UpdateIcon from "@/assets/UpdateIcon.svg";
 import DeleteIcon from "@/assets/DeleteIcon.svg";
 import Logo from "@/assets/Logo.svg";
+import getSubjectIcon from '@/util/subjectIcon';
 import * as S from "./styles";
+import { SubjectIcon } from "./styles";
 import ChoiceColor from '@/util/subjectColor';
 
+import math1Icon from "@/assets/math1Icon.svg";
+import literatureIcon from "@/assets/literatureIcon.svg";
+import koreanHistoryIcon from "@/assets/koreanHistoryIcon.svg";
+import databaseProgrammingIcon from "@/assets/databaseProgrammingIcon.svg";
+import webProgrammingIcon from "@/assets/webProgrammingIcon.svg";
+import probabilityStatisticsIcon from "@/assets/probabilityStatisticsIcon.svg";
+import serverProgrammingIcon from "@/assets/serverProgrammingIcon.svg";
+import operatingSystemIcon from "@/assets/operatingSystemIcon.svg";
+import linuxProgrammingIcon from "@/assets/linuxProgrammingIcon.svg";
+import frontendProgrammingIcon from "@/assets/frontendProgrammingIcon.svg";
+import aiUtilizationIcon from "@/assets/aiUtilizationIcon.svg";
+import commonMathIcon from "@/assets/commonMathIcon.svg";
+import commonKoreanIcon from "@/assets/commonKoreanIcon.svg";
+import integratedSocialIcon from "@/assets/integratedSocialIcon.svg";
+import english1Icon from "@/assets/english1Icon.svg";
+import integratedScienceIcon from "@/assets/integratedScienceIcon.svg";
+import programmingIcon from "@/assets/programmingIcon.svg";
+import computerArchitectureIcon from "@/assets/computerArchitectureIcon.svg";
+
+const subjectIconMap = {
+  math1Icon,
+  literatureIcon,
+  koreanHistoryIcon,
+  databaseProgrammingIcon,
+  webProgrammingIcon,
+  probabilityStatisticsIcon,
+  serverProgrammingIcon,
+  operatingSystemIcon,
+  linuxProgrammingIcon,
+  frontendProgrammingIcon,
+  aiUtilizationIcon,
+  commonMathIcon,
+  commonKoreanIcon,
+  integratedSocialIcon,
+  english1Icon,
+  integratedScienceIcon,
+  programmingIcon,
+  computerArchitectureIcon,
+};
+
 function HomePage() {
-  const subjects = ["수학 1", "통합과학", "한국사", "영어 1", "국어"];
+  const subjects = ["수학 1", "통합과학", "한국사", "영어 1", "공통국어"];
   const testRanges = [
     { subject: "수학 1", unit: "1단원: 지수와 로그", description: "지수법칙, 로그의 정의 및 성질, 상용로그" },
     { subject: "통합과학", unit: "2단원: 화학 반응", description: "산화환원반응, 중화반응" },
@@ -58,8 +100,7 @@ function HomePage() {
                 subjects.map(subject => (
                   <S.SubjectItem key={subject}>
                     <S.SubjectLeft>
-                      <S.SubjectLogo />
-                      <S.SubjectInfo>
+                      <SubjectIcon src={subjectIconMap[getSubjectIcon(subject).replace(".svg", "")]} alt={`${subject} 아이콘`} />                      <S.SubjectInfo>
                         <S.SubjectName>{subject}</S.SubjectName>
                         <S.SubjectMeta>2학년 소프트웨어과</S.SubjectMeta>
                       </S.SubjectInfo>

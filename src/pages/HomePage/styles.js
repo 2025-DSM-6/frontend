@@ -132,6 +132,12 @@ export const SubjectLogo = styled.div`
   border-radius: 50%;
 `;
 
+export const SubjectIcon = styled.img`
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+`;
+
 export const SubjectInfo = styled.div`
   display: flex;
   flex-direction: column;
