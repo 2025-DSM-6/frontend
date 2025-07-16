@@ -4,9 +4,8 @@ export const HomePageContainer = styled.div`
   background-color: #f9fafb;
   height: 100%;
   display: flex;
-  align-content: space-around;
-  padding: 20px;
   flex-direction: column;
+  padding: 20px 20px;
 `;
 
 export const Header = styled.header`
@@ -14,8 +13,38 @@ export const Header = styled.header`
   padding: 20px;
   font-size: 24px;
   font-weight: bold;
-  text-align: center;
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* 아래쪽 그림자만 */
+  position: relative;
+  overflow: hidden;
+`;
+
+export const HeaderLogo = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+export const HeaderButtons = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+export const HeaderButton = styled.button`
+  background-color: #16a34a;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 8px;
+  }
 `;
 
 export const SectionWrapper = styled.div`
@@ -112,7 +141,7 @@ export const SubjectMeta = styled.div`
 
 export const SubjectActions = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 
   img {
@@ -120,4 +149,27 @@ export const SubjectActions = styled.div`
     height: 16px;
     cursor: pointer;
   }
+`;
+
+export const TestRangeLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+`;
+
+export const SubjectTag = styled.div`
+  padding: 3px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+`;
+
+export const UnitTitle = styled.div`
+  font-weight: bold;
+`;
+
+export const UnitDescription = styled.div`
+  font-size: 12px;
+  color: #4b5563;
 `;
