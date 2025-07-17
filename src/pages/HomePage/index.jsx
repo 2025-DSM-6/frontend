@@ -53,7 +53,7 @@ const subjectIconMap = {
 };
 
 function HomePage() {
-  const subjects = ["수학 1", "통합과학", "한국사", "영어 1", "공통국어"];
+  const [subjects, setSubject] = useState([]);
 
   const [testRanges, setTestRanges] = useState([]);
 
@@ -64,13 +64,25 @@ function HomePage() {
         console.log(response);
         if (response.data?.data) {
           setTestRanges(response.data.data);
-          console.log("testtstst" + testRanges);
         }
       } catch (error) {
         console.error("시험범위 데이터를 불러오는 데 실패했습니다:", error);
       }
     };
 
+    const fetchRegistration = async () => {
+      try {
+        const response = await instance.get("/subject/addition");
+        console.log(response);
+        if (response.data?.data) {
+          setSubject(response.data.data);
+        }
+      } catch (error) {
+        console.error("시험범위 데이터를 불러오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchRegistration();
     fetchTestRanges();
   }, []);
 
@@ -109,6 +121,16 @@ function HomePage() {
     setTestRangeModal(false);
   };
 
+  const formatClassRange = (classRange) => {
+    const classMap = {
+      1: "1학년",
+      2: "2학년 소개과",
+      3: "2학년 임베과",
+      4: "2학년 에이아이과",
+    };
+    return classRange.map(range => classMap[range]).join(', ');
+  };
+
   return (
     <>
       <S.Header>
@@ -129,17 +151,17 @@ function HomePage() {
                 <S.EmptyMessage>등록된 과목이 없습니다.</S.EmptyMessage>
               ) : (
                 subjects.map(subject => (
-                  <S.SubjectItem key={subject}>
+                  <S.SubjectItem key={subject.subject_id}>
                     <S.SubjectLeft>
-                      <S.SubjectIcon src={subjectIconMap[getSubjectIcon(subject).replace(".svg", "")]} alt={`${subject} 아이콘`} />
+                      <S.SubjectIcon src={subjectIconMap[getSubjectIcon(subject.subject_name).replace('.svg', '')]} alt={`${subject.subject_name} 아이콘`} />
                       <S.SubjectInfo>
-                        <S.SubjectName>{subject}</S.SubjectName>
-                        <S.SubjectMeta>2학년 소프트웨어과</S.SubjectMeta>
+                        <S.SubjectName>{subject.subject_name}</S.SubjectName>
+                        <S.SubjectMeta>{formatClassRange(subject.class_range)}</S.SubjectMeta>
                       </S.SubjectInfo>
                     </S.SubjectLeft>
                     <S.SubjectActions>
-                      <img src={UpdateIcon} alt="수정" onClick={() => handleEditSubject(subject)} />
-                      <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteSubject(subject)} />
+                      <img src={UpdateIcon} alt="수정" onClick={() => handleEditSubject(subject.subject_name)} />
+                      <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteSubject(subject.subject_name)} />
                     </S.SubjectActions>
                   </S.SubjectItem>
                 ))
