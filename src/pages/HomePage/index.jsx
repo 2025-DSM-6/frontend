@@ -174,7 +174,7 @@ function HomePage() {
               {(!testRanges || testRanges.length === 0) ? (
                 <S.EmptyMessage>등록된 시험범위가 없습니다.</S.EmptyMessage>
               ) : (
-                testRanges.map(({ subject_name, memo, range }, index) => {
+                testRanges.map(({ subject_name, title, discription }, index) => {
                   const color = ChoiceColor(subject_name);
                   return (
                     <S.SubjectItem key={`${subject_name}-${index}`}>
@@ -182,21 +182,12 @@ function HomePage() {
                         <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
                           {subject_name}
                         </S.SubjectTag>
-                        <S.MemoText>{memo}</S.MemoText>
-                        {Array.isArray(range) && range.map(({ exam_name, exam_content }) => (
-                          <div key={exam_name}>
-                            <S.UnitTitle>{exam_name}</S.UnitTitle>
-                            <S.UnitDescription>{exam_content}</S.UnitDescription>
-                          </div>
-                        ))}
+                        <S.UnitTitle>{title}</S.UnitTitle>
+                        <S.UnitDescription>{discription}</S.UnitDescription>
                       </S.TestRangeLeft>
                       <S.SubjectActions>
-                        {Array.isArray(range) && range.map(({ exam_name }) => (
-                          <React.Fragment key={`actions-${exam_name}`}>
-                            <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(exam_name)} />
-                            <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(exam_name)} />
-                          </React.Fragment>
-                        ))}
+                        <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(title)} />
+                        <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(title)} />
                       </S.SubjectActions>
                     </S.SubjectItem>
                   );

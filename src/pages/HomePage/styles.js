@@ -92,6 +92,8 @@ export const ItemList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
+  flex: 1;
 `;
 
 export const Item = styled.li`
