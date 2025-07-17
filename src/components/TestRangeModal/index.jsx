@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as S from "./styles";
 import useTestRangeModalInputStore from "@/store/TestRangeModalInputStore";
 
-export default function TestRangeModal({ onClose }) {
+export default function TestRangeModal({ onClose, kind = 'edit' }) {
   const {
     subject,
     department,
@@ -34,7 +34,7 @@ export default function TestRangeModal({ onClose }) {
   return (
     <S.Overlay onClick={handleBackgroundClick}>
       <S.TestRangeModalContainer>
-        <S.Title>시험 범위 등록</S.Title>
+        <S.Title>{kind === "edit" ? "시험 범위 수정" : "시험 범위 등록"}</S.Title>
         <S.RowInputs>
           <S.InputGroup>
             <label>
@@ -89,7 +89,7 @@ export default function TestRangeModal({ onClose }) {
           <S.InputGroup>
             <label>
               메모
-              <S.Input type="text" value={memo} onChange={(e) => setMemo(e.target.value)} />
+              <S.Input type="text" value={memo} onChange={(e) => setMemo(e.target.value)} placeholder="ex) 2-1은 시험범위 제외입니다" />
             </label>
           </S.InputGroup>
         </S.RowInputs>
@@ -98,12 +98,15 @@ export default function TestRangeModal({ onClose }) {
             상세 설명
             <S.TextArea
               value={detailedDescription}
+              placeholder="*단원과 단원명을 함께 써주세요"
               onChange={(e) => setDetailedDescription(e.target.value)}
             />
           </label>
         </div>
         <S.ButtonSection>
-          <S.SubmitButton onClick={handleSubmitButton}>등록</S.SubmitButton>
+          <S.SubmitButton onClick={handleSubmitButton}>
+            {kind === "edit" ? "수정" : "등록"}
+          </S.SubmitButton>
         </S.ButtonSection>
       </S.TestRangeModalContainer>
     </S.Overlay>
