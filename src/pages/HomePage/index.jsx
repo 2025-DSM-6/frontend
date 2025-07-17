@@ -6,6 +6,7 @@ import * as S from "./styles";
 import { SubjectIcon } from "./styles";
 import ChoiceColor from '@/util/subjectColor';
 import RegistrationModal from "@/components/RegistrationModal";
+import TestRangeModal from "@/components/TestRangeModal";
 
 import math1Icon from "@/assets/math1Icon.svg";
 import literatureIcon from "@/assets/literatureIcon.svg";
@@ -56,13 +57,14 @@ function HomePage() {
     { subject: "한국사", unit: "3단원: 조선 후기", description: "세도정치, 농민 봉기, 개화 정책" },
   ];
   const [registrationModal, setRegistrationModal] = useState(false);
+  const [testRangeModal, setTestRangeModal] = useState(false);
 
   const handleAddSubject = () => {
     setRegistrationModal(true);
   };
 
   const handleAddTestRange = () => {
-    alert("시험범위 등록 버튼 클릭됨");
+    setTestRangeModal(true);
   };
 
   const handleEditSubject = (subject) => {
@@ -83,6 +85,10 @@ function HomePage() {
 
   const closeModal = () => {
     setRegistrationModal(false);
+  };
+
+  const closeTestRangeModal = () => {
+    setTestRangeModal(false);
   };
 
   return (
@@ -152,6 +158,9 @@ function HomePage() {
       </S.HomePageContainer>
       {registrationModal && (
         <RegistrationModal onClose={closeModal} />
+      )}
+      {testRangeModal && (
+        <TestRangeModal onClose={closeTestRangeModal} />
       )}
     </>
   );
