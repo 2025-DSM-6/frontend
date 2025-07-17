@@ -12,14 +12,6 @@ export const Label = styled.label`
   color: #333;
 `;
 
-export const TextInput = styled.input`
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  padding: 8px;
-  text-align: center;
-  font-size: 14px;
-`;
-
 export const SelectInput = styled.select`
   border: 1px solid #cccccc;
   border-radius: 8px;
