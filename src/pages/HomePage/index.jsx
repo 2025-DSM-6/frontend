@@ -26,7 +26,9 @@ import english1Icon from "@/assets/english1Icon.svg";
 import integratedScienceIcon from "@/assets/integratedScienceIcon.svg";
 import programmingIcon from "@/assets/programmingIcon.svg";
 import computerArchitectureIcon from "@/assets/computerArchitectureIcon.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import api from "@/apis/instance";
+import Cookies from "js-cookie";
 
 const subjectIconMap = {
   math1Icon,
@@ -51,11 +53,29 @@ const subjectIconMap = {
 
 function HomePage() {
   const subjects = ["수학 1", "통합과학", "한국사", "영어 1", "공통국어"];
-  const testRanges = [
-    { subject: "수학 1", unit: "1단원: 지수와 로그", description: "지수법칙, 로그의 정의 및 성질, 상용로그" },
-    { subject: "통합과학", unit: "2단원: 화학 반응", description: "산화환원반응, 중화반응" },
-    { subject: "한국사", unit: "3단원: 조선 후기", description: "세도정치, 농민 봉기, 개화 정책" },
-  ];
+
+  const [testRanges, setTestRanges] = useState([]);
+
+  useEffect(() => {
+    const fetchTestRanges = async () => {
+      try {
+        const token = Cookies.get("accessToken");
+        const response = await api.get("/range/addition", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.data && response.data.body) {
+          setTestRanges(response.data.body);
+        }
+      } catch (error) {
+        console.error("시험범위 데이터를 불러오는 데 실패했습니다:", error);
+      }
+    }
+
+    fetchTestRanges();
+  }, []);
+
   const [registrationModal, setRegistrationModal] = useState(false);
   const [testRangeModal, setTestRangeModal] = useState(false);
 
@@ -133,23 +153,23 @@ function HomePage() {
               {testRanges.length === 0 ? (
                 <S.EmptyMessage>등록된 시험범위가 없습니다.</S.EmptyMessage>
               ) : (
-                testRanges.map(({ subject, unit, description }) => {
-                  const color = ChoiceColor(subject);
-                  return (
-                    <S.SubjectItem key={unit}>
+                testRanges.map(({ subjectName, range }) => {
+                  const color = ChoiceColor(subjectName);
+                  return range.map(({ exam_name, exam_content }) => (
+                    <S.SubjectItem key={exam_name}>
                       <S.TestRangeLeft>
                         <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
-                          {subject}
+                          {subjectName}
                         </S.SubjectTag>
-                        <S.UnitTitle>{unit}</S.UnitTitle>
-                        <S.UnitDescription>{description}</S.UnitDescription>
+                        <S.UnitTitle>{exam_name}</S.UnitTitle>
+                        <S.UnitDescription>{exam_content}</S.UnitDescription>
                       </S.TestRangeLeft>
                       <S.SubjectActions>
-                        <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(unit)} />
-                        <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(unit)} />
+                        <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(exam_name)} />
+                        <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(exam_name)} />
                       </S.SubjectActions>
                     </S.SubjectItem>
-                  );
+                  ));
                 })
               )}
             </S.ItemList>
