@@ -5,6 +5,7 @@ import './index.css';
 import App from './App.jsx';
 import HomePage from './pages/HomePage/index.jsx';
 import LoginPage from './pages/LoginPage/index.jsx';
+import lie from "@/assets/lie.png"
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/getScore',
+        element: <img src={lie} alt="" onClick={() => window.location.href = "/"} style={{ cursor: "pointer" }} />
       },
     ],
   },
