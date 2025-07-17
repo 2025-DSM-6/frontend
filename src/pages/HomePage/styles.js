@@ -19,7 +19,7 @@ export const Header = styled.header`
   width: 100%;
   height: 70px;
   box-sizing: border-box;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05); /* 아래쪽 그림자만 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
 `;
@@ -71,7 +71,6 @@ export const Section = styled.section`
   overflow: hidden;
   width: 100%;
   height: 86vh;
-  display: block;
 `;
 
 export const SectionTitle = styled.div`
@@ -185,6 +184,11 @@ export const UnitTitle = styled.div`
 export const UnitDescription = styled.div`
   font-size: 12px;
   color: #4b5563;
+`;
+
+export const MemoText = styled.div`
+  font-size: 14px;
+  color: #374151;
 `;
 
 export const EmptyMessage = styled.div`

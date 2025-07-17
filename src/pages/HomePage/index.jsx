@@ -1,12 +1,12 @@
+import React from "react";
+import * as S from "./styles";
 import UpdateIcon from "@/assets/UpdateIcon.svg";
 import DeleteIcon from "@/assets/DeleteIcon.svg";
 import Logo from "@/assets/Logo.svg";
 import getSubjectIcon from '@/util/subjectIcon';
-import * as S from "./styles";
-import { SubjectIcon } from "./styles";
 import ChoiceColor from '@/util/subjectColor';
-import RegistrationModal from "@/components/RegistrationModal";
-import TestRangeModal from "@/components/TestRangeModal";
+import RegistrationModal from "@/components/RegistrationModal/index.jsx";
+import TestRangeModal from "@/components/TestRangeModal/index.jsx";
 
 import math1Icon from "@/assets/math1Icon.svg";
 import literatureIcon from "@/assets/literatureIcon.svg";
@@ -26,8 +26,9 @@ import english1Icon from "@/assets/english1Icon.svg";
 import integratedScienceIcon from "@/assets/integratedScienceIcon.svg";
 import programmingIcon from "@/assets/programmingIcon.svg";
 import computerArchitectureIcon from "@/assets/computerArchitectureIcon.svg";
+
 import { useState, useEffect } from "react";
-import api from "@/apis/instance";
+import instance from "@/apis/instance";
 import Cookies from "js-cookie";
 
 const subjectIconMap = {
@@ -59,19 +60,16 @@ function HomePage() {
   useEffect(() => {
     const fetchTestRanges = async () => {
       try {
-        const token = Cookies.get("accessToken");
-        const response = await api.get("/range/addition", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.data && response.data.body) {
-          setTestRanges(response.data.body);
+        const response = await instance.get("/range/addition");
+        console.log(response);
+        if (response.data?.data) {
+          setTestRanges(response.data.data);
+          console.log("testtstst" + testRanges);
         }
       } catch (error) {
         console.error("시험범위 데이터를 불러오는 데 실패했습니다:", error);
       }
-    }
+    };
 
     fetchTestRanges();
   }, []);
@@ -133,7 +131,8 @@ function HomePage() {
                 subjects.map(subject => (
                   <S.SubjectItem key={subject}>
                     <S.SubjectLeft>
-                      <SubjectIcon src={subjectIconMap[getSubjectIcon(subject).replace(".svg", "")]} alt={`${subject} 아이콘`} />                      <S.SubjectInfo>
+                      <S.SubjectIcon src={subjectIconMap[getSubjectIcon(subject).replace(".svg", "")]} alt={`${subject} 아이콘`} />
+                      <S.SubjectInfo>
                         <S.SubjectName>{subject}</S.SubjectName>
                         <S.SubjectMeta>2학년 소프트웨어과</S.SubjectMeta>
                       </S.SubjectInfo>
@@ -148,28 +147,37 @@ function HomePage() {
             </S.ItemList>
           </S.Section>
           <S.Section>
-            <S.SectionTitle>시험범위 목록<S.TotalNum>총 {testRanges.length}과목</S.TotalNum></S.SectionTitle>
+            <S.SectionTitle>시험범위 목록<S.TotalNum>총 {testRanges?.length ?? 0}과목</S.TotalNum></S.SectionTitle>
             <S.ItemList>
-              {testRanges.length === 0 ? (
+              {(!testRanges || testRanges.length === 0) ? (
                 <S.EmptyMessage>등록된 시험범위가 없습니다.</S.EmptyMessage>
               ) : (
-                testRanges.map(({ subjectName, range }) => {
-                  const color = ChoiceColor(subjectName);
-                  return range.map(({ exam_name, exam_content }) => (
-                    <S.SubjectItem key={exam_name}>
+                testRanges.map(({ subject_name, memo, range }, index) => {
+                  const color = ChoiceColor(subject_name);
+                  return (
+                    <S.SubjectItem key={`${subject_name}-${index}`}>
                       <S.TestRangeLeft>
                         <S.SubjectTag style={{ backgroundColor: color.background, color: color.text }}>
-                          {subjectName}
+                          {subject_name}
                         </S.SubjectTag>
-                        <S.UnitTitle>{exam_name}</S.UnitTitle>
-                        <S.UnitDescription>{exam_content}</S.UnitDescription>
+                        <S.MemoText>{memo}</S.MemoText>
+                        {Array.isArray(range) && range.map(({ exam_name, exam_content }) => (
+                          <div key={exam_name}>
+                            <S.UnitTitle>{exam_name}</S.UnitTitle>
+                            <S.UnitDescription>{exam_content}</S.UnitDescription>
+                          </div>
+                        ))}
                       </S.TestRangeLeft>
                       <S.SubjectActions>
-                        <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(exam_name)} />
-                        <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(exam_name)} />
+                        {Array.isArray(range) && range.map(({ exam_name }) => (
+                          <React.Fragment key={`actions-${exam_name}`}>
+                            <img src={UpdateIcon} alt="수정" onClick={() => handleEditTestRange(exam_name)} />
+                            <img src={DeleteIcon} alt="삭제" onClick={() => handleDeleteTestRange(exam_name)} />
+                          </React.Fragment>
+                        ))}
                       </S.SubjectActions>
                     </S.SubjectItem>
-                  ));
+                  );
                 })
               )}
             </S.ItemList>

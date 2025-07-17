@@ -1,4 +1,4 @@
-const ChoiceColor = (subjectName) => {
+const getSubjectIcon = (subjectName) => {
   switch (subjectName) {
     case "수학 1":
       return "math1Icon.svg";
@@ -39,8 +39,8 @@ const ChoiceColor = (subjectName) => {
     case "컴퓨터 구조":
       return "computerArchitectureIcon.svg";
     default:
-      return "computerArchitectureIcon.svg";
+      return "commonKoreanIcon.svg";
   }
 };
 
-export default ChoiceColor;
+export default getSubjectIcon;
