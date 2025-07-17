@@ -1,9 +1,21 @@
 import * as S from "./styles";
+import useModalInputStore from "@/store/modalInputStore";
+
 
 export default function RegistrationModal({ onClose }) {
-  const handleSubmitButton = () => {
+  const {
+    registrationModal,
+    setSubject,
+    setDepartment,
+  } = useModalInputStore();
+
+  const handleCloseModal = () => {
     onClose();
-  }
+  };
+
+  const handleSubmitButton = () => {
+    handleCloseModal();
+  };
   return (
     <div
       style={{
@@ -15,14 +27,17 @@ export default function RegistrationModal({ onClose }) {
         backgroundColor: "rgba(0, 0, 0, 0.3)",
         zIndex: 999,
       }}
-      onClick={onClose}
+      onClick={handleCloseModal}
     >
       <S.RegistrationModalContainer onClick={(e) => e.stopPropagation()}>
         <h2>과목 등록</h2>
         <S.InputSection>
           <S.InputGroup>
             <S.Label>과목</S.Label>
-            <S.SelectInput>
+            <S.SelectInput
+              value={registrationModal.subject}
+              onChange={(e) => setSubject(e.target.value)}
+            >
               <option value="수학 1">수학 1</option>
               <option value="문학">문학</option>
               <option value="한국사">한국사</option>
@@ -46,7 +61,10 @@ export default function RegistrationModal({ onClose }) {
           </S.InputGroup>
           <S.InputGroup>
             <S.Label>과 선택</S.Label>
-            <S.SelectInput>
+            <S.SelectInput
+              value={registrationModal.department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
               <option value="학년 전체">학년 전체</option>
               <option value="소프트웨어 개발과">소프트웨어 개발과</option>
               <option value="인공지능 소프트웨어과">인공지능 소프트웨어과</option>
@@ -56,7 +74,7 @@ export default function RegistrationModal({ onClose }) {
         </S.InputSection>
         <S.ButtonSection>
           <S.SubmitButton onClick={handleSubmitButton}>등록</S.SubmitButton>
-          <S.CancelButton onClick={onClose}>취소</S.CancelButton>
+          <S.CancelButton onClick={handleCloseModal}>취소</S.CancelButton>
         </S.ButtonSection>
       </S.RegistrationModalContainer>
     </div>
