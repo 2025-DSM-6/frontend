@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import * as S from "./styles";
 import UpdateIcon from "@/assets/UpdateIcon.svg";
 import DeleteIcon from "@/assets/DeleteIcon.svg";
@@ -26,8 +26,6 @@ import english1Icon from "@/assets/english1Icon.svg";
 import integratedScienceIcon from "@/assets/integratedScienceIcon.svg";
 import programmingIcon from "@/assets/programmingIcon.svg";
 import computerArchitectureIcon from "@/assets/computerArchitectureIcon.svg";
-
-import { useState, useEffect } from "react";
 import instance from "@/apis/instance";
 import Cookies from "js-cookie";
 
@@ -89,29 +87,45 @@ function HomePage() {
   const [registrationModal, setRegistrationModal] = useState(false);
   const [testRangeModal, setTestRangeModal] = useState(false);
 
-  const handleAddSubject = () => {
+  const handleAddSubject = useCallback(() => {
     setRegistrationModal(true);
-  };
+  }, []);
 
-  const handleAddTestRange = () => {
+  const handleAddTestRange = useCallback(() => {
     setTestRangeModal(true);
-  };
+  }, []);
 
-  const handleEditSubject = (subject) => {
+  const handleEditSubject = useCallback((subject) => {
     alert(`담당과목 수정 클릭: ${subject}`);
-  };
+  }, []);
 
-  const handleDeleteSubject = (subject) => {
+  const handleDeleteSubject = useCallback((subject) => {
     alert(`담당과목 삭제 클릭: ${subject}`);
-  };
+  }, []);
 
-  const handleEditTestRange = (unit) => {
+  const handleEditTestRange = useCallback((unit) => {
     alert(`시험범위 수정 클릭: ${unit}`);
-  };
+  }, []);
 
-  const handleDeleteTestRange = (unit) => {
-    alert(`시험범위 삭제 클릭: ${unit}`);
-  };
+  const handleDeleteTestRange = useCallback(async (unit) => {
+    const confirmDelete = window.confirm(`${unit} 시험범위를 삭제하시겠습니까?`);
+    if (!confirmDelete) return;
+
+    try {
+      const response = await instance.delete(`/range/${unit}`);
+
+      if (response.status === 200 || response.status === 204) {
+        setTestRanges(prev =>
+          prev.filter(range => range.title !== unit)
+        );
+      } else {
+        alert("삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("시험범위 삭제 실패:", error);
+      alert("삭제 도중 오류가 발생했습니다.");
+    }
+  }, []);
 
   const closeModal = () => {
     setRegistrationModal(false);
@@ -140,6 +154,7 @@ function HomePage() {
         <S.HeaderButtons>
           <S.HeaderButton onClick={handleAddSubject}>담당과목 등록</S.HeaderButton>
           <S.HeaderButton onClick={handleAddTestRange}>시험범위 등록</S.HeaderButton>
+          <S.HeaderButton onClick={() => window.location.href = "/getScore"} style={{ marginRight: "20px" }}>학생 조회</S.HeaderButton>
         </S.HeaderButtons>
       </S.Header>
       <S.HomePageContainer>
@@ -207,4 +222,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default memo(HomePage);
